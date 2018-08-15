@@ -1,0 +1,19 @@
+{
+  "configs": [
+    "helloworld.xml"
+  ],
+  "redeploymentEnabled": true,
+  "name": "helloworld",
+  "minMuleVersion": "4.1.1",
+  "requiredProduct": "MULE_CE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedResources": []
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

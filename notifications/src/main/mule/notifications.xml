@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:spring="http://www.mulesoft.org/schema/mule/spring"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd ">
+   
+    <spring:config name="springConfig" files="beans.xml"/>
+   
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d6132ed6-b549-4a5a-ab30-b0006362476b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+
+   <notifications>
+       <!--
+       Cannot find the XSD for 4.1.1 to see what these should be. Leaving them out
+       means all notifications are enabled.
+      <notification event="CONNECTION"/>
+      <notification event="MANAGEMENT"/>
+      <notification event="CONNECTOR-MESSAGE"/>
+      <notification event="FLOW-CONSTRUCT"/>
+      -->
+
+      <notification-listener ref="myConnectionListener"/>      
+      <notification-listener ref="myManagementListener"/>      
+      <notification-listener ref="myConnectorMessageListener"/>      
+      <notification-listener ref="myFlowConstructListener"/>
+	   <notification-listener ref="myMuleContextNotification"/>
+   </notifications>
+   
+	<flow name="Flow1" doc:id="fb709ee4-0263-492c-92e3-ba5bb6287cd7" >
+		<http:listener doc:name="Listener" doc:id="b4f5d981-3869-46e4-879b-2ba9e8e1c2b7" config-ref="HTTP_Listener_config" path="/flow1"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d254b372-8ea9-4b59-bb07-04cc2bf715a5" message="Flow1 #[message.inboundProperties.'http.request.path']"/>
+		<set-payload value="{'flow':'flow1'}" doc:name="Set Payload" doc:id="c04ac342-40dd-48ec-bf80-206d3aaa77e3" mimeType="application/json"/>
+	</flow>
+
+   <flow name="Flow2" doc:id="fb709ee4-0263-492c-92e3-ba5bb6287cd8" >
+		<http:listener doc:name="Listener" doc:id="b4f5d981-3869-46e4-879b-2ba9e8e1c2b8" config-ref="HTTP_Listener_config" path="/flow2"/>
+		<logger level="INFO" doc:name="Logger" doc:id="d254b372-8ea9-4b59-bb07-04cc2bf715a6" message="Flow2 #[message.inboundProperties.'http.request.path']"/>
+		<set-payload value="{'flow':'flow2'}" doc:name="Set Payload" doc:id="c04ac342-40dd-48ec-bf80-206d3aaa77e4" mimeType="application/json"/>
+	</flow>
+
+</mule>
+
